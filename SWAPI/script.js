@@ -6,9 +6,14 @@
         
 // --------------------- !!!TO DO: -------------------------
 // LOADER!
-// SEARCH input! partialy done (bugs!)
+// SEARCH input! partialy done
+// search fields separately for ships and people, dynamically entered in script
+//(BUG: search field works, but won`t take more than one letter and it does not display it!)
 // PAGINATION!
-// Button for ASCENDING - DESCENDING! (sort functionality) Done! 
+// Button for ASCENDING - DESCENDING! (sort functionality) Done! (though the "lazy way!": used array.reverse() instead of array.sort(...)!
+
+//прашање: како да го направам пребарувањето пореално, т.е. вистински динамично: на пример, ако закуцам Palpatine и ми го
+//даде само Палпатин од persons, како што бришам букви во полето за пребарување да ми ги враќа назад и останатите ликови соодветно
 
 
 let logo = document.getElementById("logo");
@@ -30,7 +35,7 @@ let previous;
 let data = null;
 let feedback = null;
 
-// search works like this (globaly declared)
+// search works like this (globally declared)
 // function search() {
 //     filteredByName = array.filter(array => array.name.toLowerCase().includes(searchField.value.toLowerCase()))
 //     printShips(fullDisplay, filteredByName); //BUG: when filtered ships, the <th> columns for people are displayed!s
