@@ -1,10 +1,14 @@
+
+
 //-------SWAPI-------
-       
+
+//------(scriptExp5.js)--------
+        
 // --------------------- !!!TO DO: -------------------------
 // LOADER!
-// SEARCH input!
+// SEARCH input! partialy done (bugs!)
 // PAGINATION!
-// Button for ASCENDING - DESCENDING! (sort functionality)
+// Button for ASCENDING - DESCENDING! (sort functionality) Done! 
 
 
 let logo = document.getElementById("logo");
@@ -13,8 +17,7 @@ let ships = document.getElementById("ships");
 // let display = document.getElementById("tablescreen");
 let fullDisplay = document.getElementById("present");
 
-
-let received = []; //where the received data will be stored //not needed
+let array = []; 
 
 // let url = `https://swapi.co/api`
 let urlStarships = `https://swapi.co/api/starships`  //?=pageNo
@@ -26,6 +29,15 @@ let next;
 let previous;
 let data = null;
 let feedback = null;
+
+// search works like this (globaly declared)
+// function search() {
+//     filteredByName = array.filter(array => array.name.toLowerCase().includes(searchField.value.toLowerCase()))
+//     printShips(fullDisplay, filteredByName); //BUG: when filtered ships, the <th> columns for people are displayed!s
+//     printPeople(fullDisplay, filteredByName);
+// } 
+
+// searchField.addEventListener("input", search);
 
 // // API request: SHIPS-------------------------------------------------------------------------------------------
 
@@ -73,9 +85,10 @@ async function requestShipsPrevious() {
    
 
 let printShips = (table, starships) => {
-    
+    array = starships;
+    console.log("array", array);
     table.innerHTML = "";
-    table.innerHTML += `<thead> <tr>
+    table.innerHTML += `<thead id="head"> <tr>
         <th> Name </th>
         <th> Model </th>
         <th> Manufacturer </th>
@@ -98,18 +111,34 @@ let printShips = (table, starships) => {
         }
     table.innerHTML += `
     <button id="previous"> Previous </button>
-    <button id ="next"> Next </button>
+    <button id="next"> Next </button>
+    <input id="searchField" name="searchname" placeholder="search ships by name">
     `
-    let buttonNext = document.getElementById("next");
-    let buttonPrevious = document.getElementById("previous");
+    
 
+    const buttonNext = document.getElementById("next");
+    const buttonPrevious = document.getElementById("previous");
+    const buttonDelete = document.getElementById("del");
+    const searchField = document.getElementById("searchField");
+    const sort = document.getElementById("head");
 
     buttonNext.addEventListener("click", requestShipsNext)
 
     buttonPrevious.addEventListener("click", requestShipsPrevious);
 
-    let buttonDelete = document.getElementById("del");
-            
+    function search() {
+        filteredByName = array.filter(array => array.name.toLowerCase().includes(searchField.value.toLowerCase()))
+        printShips(fullDisplay, filteredByName);
+    } 
+    
+    searchField.addEventListener("input", search)
+
+    function sortShips() {
+        printShips(table, array.reverse())
+    }
+
+    sort.addEventListener("click", sortShips);
+
     function deleteRow() {
         row.innerHTML = "";  //Bug: works ONLY for the first row?!!! why?
     }
@@ -164,8 +193,9 @@ async function requestPeoplePrevious() {
 }
     
 function printPeople(table, people) {
+    array = people;
     table.innerHTML = "";
-    table.innerHTML +=  `<thead> <tr>
+    table.innerHTML +=  `<thead id="head"> <tr>
         <th> Name </th>
         <th> Height </th>
         <th> Mass </th>
@@ -190,28 +220,40 @@ function printPeople(table, people) {
             
     table.innerHTML += `
     <button id="previous"> Previous </button>
-    <button id ="next"> Next </button>`
+    <button id ="next"> Next </button>
+    <input id="searchField" name="searchname" placeholder="search people by name">`
 
     //buttons for this function (printPeople)
 
     let buttonNext = document.getElementById("next");
     let buttonPrevious = document.getElementById("previous");
     let buttonDelete = document.getElementById("del");
-    
+    let searchField = document.getElementById("searchField");
+    let sort = document.getElementById("head");    
     //functions for the buttons
+
+    function search() {
+        filteredByName = array.filter(array => array.name.toLowerCase().includes(searchField.value.toLowerCase()))
+        printPeople(table, filteredByName);
+    } 
+    
+    searchField.addEventListener("input", search);
 
     buttonNext.addEventListener("click", requestPeopleNext);
 
-    
     buttonPrevious.addEventListener("click", requestPeoplePrevious);
 
-            
+    function sortPeople() {
+        printPeople(table, array.reverse())
+    }
+
+    sort.addEventListener("click", sortPeople);
+
     function deleteRow() {
         row.innerHTML = "";  //Bug: works ONLY for the first row?!!! why?
     }
 
     buttonDelete.addEventListener("click", deleteRow);
-    
 }
 
 
@@ -219,64 +261,4 @@ ships.addEventListener("click", requestShips);
 persons.addEventListener("click", requestPeople);
 
  
-    // async function next() {
-    //     let feedback = await fetch(urlPeople);
-    //     let dataPeople = await feedback.json();
-    //     printPeople(fullDisplay,)
-    // }
-
-//---------------GARBAGE(removed code)---------------
-
-// .finally( () => console.log(next));
-
-//         buttonNext.addEventListener("click", () => {
-//            console.log(next);
-//            fetch(next)
-//             .then(response => response.json())
-//             .then(response => {
-//                 console.log(response);
-//                 console.log(response.results);
-//                 // received = feedback;
-//                 console.log(response.next);
-//                 printPeople(fullDisplay, response.results);
-//                 next = response.next
-//                 })
-            
-//             // .finally( () => console.log(next));
-
-//         })
-//         // buttonPrevious.addEventListener("click", testing)
-
-// }
-
-// function testingNext() {
-//     alert("testing Next")
-// }
-
-// fetch(urlStarships) === true ? 
-//     .then(feedback = feedback.json())
-//     .then(feedback => 
-//         console.log(feedback))
-//     //printPeople(feedback.next)
-//     //koja funkcija tuka?!
-
-// )
-
-// ------ 
-//why people is undefined here (in the for loop for people: )
-// async function requestPeople () {
-//     feedback = await fetch(`https://swapi.co/api/people/?page=3`)
-//     data = await feedback.json()
-//         console.log("data", data);
-//         console.log("data results", data.results);
-//         console.log("data.previous", data.previus) // undefined!!! дали затоа ми фрла ерор за previous? И зошто е undefined?
-//         console.log("data.next", data.next);
-//         printPeople(fullDisplay, feedback.results);
-//         next = data.next;
-//         previous = data.previous;
-//         // buttonNext.addEventListener("click", printPeople(fullDisplay, feedback.next));
-//         console.log(data.next);
-//         console.log(data.previous);
-// }
-
 
