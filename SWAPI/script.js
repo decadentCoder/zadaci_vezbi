@@ -36,6 +36,9 @@ let data = null;
 let feedback = null;
 
 // search works like this (globally declared)
+
+// let searchField = document.getElementById("searchName");
+
 // function search() {
 //     filteredByName = array.filter(array => array.name.toLowerCase().includes(searchField.value.toLowerCase()))
 //     printShips(fullDisplay, filteredByName); //BUG: when filtered ships, the <th> columns for people are displayed!s
